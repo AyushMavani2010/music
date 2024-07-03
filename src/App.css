@@ -1,0 +1,17 @@
+.app-container {
+  display: flex;
+}
+.album-container {
+  flex: 1;
+  padding: 20px;
+}
+
+.music-player-container {
+  flex: 3;
+  padding: 20px;
+  
+}
+
+.song-item {
+  margin-bottom: 20px;
+} 
