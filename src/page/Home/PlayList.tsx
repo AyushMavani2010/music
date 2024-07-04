@@ -6,19 +6,21 @@ const PlayList = () => {
 
   return (
     <div className="album-container">
-      <h1 style={{ justifyContent: "center" }}>Music List</h1>
+      <h1 style={{ paddingLeft: "100px" }}>Music List</h1>
       <div className="album">
         {contextData.album.map((item: any, index: any) => (
-          <div onClick={() => contextData.setSelect(index)}>
+          <div
+            key={index}
+            className="album1"
+            onClick={() => contextData.setSelect(index)}
+          >
             <img
               src={item.image}
               alt="music image"
-              width={"100px"}
-              height={"100px"}
+              width={"120px"}
+              height={"120px"}
             />
-            <p>
-              {item.songName}
-            </p>
+            <h3>{item.songName}</h3>
           </div>
         ))}
       </div>

@@ -1,17 +1,41 @@
-.app-container {
+* {
+  width: 100%;
+}
+.container {
   display: flex;
 }
+.playlist {
+  padding: 20px;
+  width: 35%;
+}
+
 .album-container {
-  flex: 1;
-  padding: 20px;
+  width: 65%;
 }
-
+/* .album {
+  padding: 10px;
+} */
+.album1 {
+  display: flex;
+}
+.album1 img {
+  padding: 10px;
+  border-radius: 50%;
+}
+.album1 h3 {
+  padding-left: 20px;
+  padding-top: 40px;
+}
 .music-player-container {
-  flex: 3;
-  padding: 20px;
-  
+  width: 80%;
+  align-items: center;
 }
-
-.song-item {
-  margin-bottom: 20px;
-} 
+.music-player-container img {
+  justify-content: center;
+}
+.playerimg {
+  align-items: center;
+}
+.audioplayer {
+  width: 150px;
+}
