@@ -70,21 +70,27 @@ const AlbumProvider: React.FC<AlbumProviderProps> = ({ children }) => {
       setIsPlaying(true);
     }
   };
-  // const progressBar = (audioRef: any) => {
-  //   setProgress(e.target.value);
-  //   audioRef.current.currentTime =
-  //     (e.target.value * audioRef.current.duration) / 100;
+  const progressBar = (audioRef: any) => {
+    const sec = Math.floor(audioRef.current.duration);
+    setProgress(sec);
+  };
+  console.log(progress);
+  // const sec = (audioRef: any) => {
+  //   setProgress(Math.floor(audioRef.current.duration));
+  //   console.log(progress);
   // };
+
   const contextValue = {
     album,
-    setSelect,
+    setSelect,  
     select,
     handlePre,
     handleNext,
+    progress,
     playPause,
-
+    progressBar,
   };
-
+  
   return (
     <AlbumContext.Provider value={contextValue}>
       {children}
