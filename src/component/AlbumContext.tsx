@@ -47,6 +47,13 @@ const AlbumProvider: React.FC<AlbumProviderProps> = ({ children }) => {
     },
   ];
 
+  // const updateslider = () => {
+  //   const time = parseFloat(event.target.value);
+  //   if (audioRef.current) {
+  //     audioRef.current.currentTime = time;
+  //     setUpdateTime(time);
+  //   }
+  // };
   const handlePre = (selectIndex: number) => {
     setSelect(select - 1);
     if (!select) {
