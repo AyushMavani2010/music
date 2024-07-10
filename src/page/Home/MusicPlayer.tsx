@@ -1,13 +1,22 @@
-import React, { useContext, useRef, useState, useEffect } from "react";
+import React, { useContext, useRef, useState, ChangeEvent } from "react";
 import { AlbumContext } from "../../component/AlbumContext";
-import Slider from "@mui/material/Slider";
-import { time } from "console";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPlay,
+  faPause,
+  faStepBackward,
+  faStepForward,
+  faDownload,
+  faVolumeUp,
+} from "@fortawesome/free-solid-svg-icons";
+
 const MusicPlayer = () => {
   const contextData = useContext(AlbumContext);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [updateTime, setUpdateTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  console.log(audioRef);
+  const [liveTime, setLiveTime] = useState(0);
+
   const formatTime = (time: any) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60)
@@ -15,50 +24,79 @@ const MusicPlayer = () => {
       .padStart(2, "0");
     return `${minutes}:${seconds}`;
   };
+
   const time = () => {
     if (audioRef.current) {
       setUpdateTime(audioRef.current.currentTime);
     }
   };
-  console.log(duration);
+
+  const updateSlider = (event: ChangeEvent<HTMLInputElement>) => {
+    const liveTime = parseFloat(event.target.value);
+    if (audioRef.current) {
+      audioRef.current.currentTime = liveTime;
+      setLiveTime(liveTime);
+    }
+  };
+
+  const volume = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const vol = parseFloat(event.target.value);
+    if (audioRef.current) {
+      audioRef.current.volume = vol;
+    }
+  };
+
   return (
     <div className="music-player-container">
-      <div className="playerimg">
+      <div className="player-img">
         <img
           src={contextData.album[contextData.select].image}
           alt="music name"
-          style={{ width: "175px" }}
+          className="player-image"
         />
       </div>
-      <div>
-        <h1>{contextData.album[contextData.select].songName}</h1>
-      </div>
-      <div>
-        <audio
-          ref={audioRef}
-          src={contextData.album[contextData.select].path}
-          onTimeUpdate={time}
-          onLoadedMetadata={() => setDuration(audioRef.current?.duration || 0)}
-        />
-      </div>
-      <button onClick={() => contextData.playPause(audioRef)}>Play</button>
-      <button onClick={() => contextData.handlePre()}>Pre</button>
-      <button onClick={() => contextData.handleNext()}>Next</button>
-      <span>{formatTime(updateTime)}</span>
-      <input
-        type="range"
-        min={0}
-        max={duration || 1}
-        // step={2}
-
-        onChange={(e) => contextData.progress}
+      <h1 className="song-title">
+        {contextData.album[contextData.select].songName}
+      </h1>
+      <audio
+        ref={audioRef}
+        src={contextData.album[contextData.select].path}
+        onTimeUpdate={time}
+        onLoadedMetadata={() => setDuration(audioRef.current?.duration || 0)}
       />
-      <span>{formatTime(duration)}</span>
-
-      {/* <button onClick={() => contextData.progressBar(audioRef)}>Next</button> */}
-      {/* <Slider ></Slider> */}
-
-      <div></div>
+      <div className="player-controls">
+        <button onClick={() => contextData.handlePre()}>
+          <FontAwesomeIcon icon={faStepBackward} />
+        </button>
+        <button onClick={() => contextData.playPause(audioRef)}>
+          <FontAwesomeIcon icon={contextData.isPlaying ? faPause : faPlay} />
+        </button>
+        <button onClick={() => contextData.handleNext()}>
+          <FontAwesomeIcon icon={faStepForward} />
+        </button>
+      </div>
+      <div className="time-display">
+        <span>{formatTime(updateTime)}</span>
+        <div className="progress-container">
+          <input
+            type="range"
+            min={0}
+            max={duration || 1}
+            value={updateTime}
+            onChange={updateSlider}
+          />
+        </div>
+        <span>{formatTime(duration)}</span>
+      </div>
+      <div className="volume-container">
+        <input type="range" min={0} max={1} step={0.01} onChange={volume} />
+        <FontAwesomeIcon icon={faVolumeUp} />
+        <div className="download-controls">
+          <button onClick={() => contextData.downLoad(audioRef)}>
+            <FontAwesomeIcon icon={faDownload} />
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

@@ -10,10 +10,21 @@ import i1 from "../Asset/Images/1.jpg";
 import i2 from "../Asset/Images/p2.jpeg";
 import i3 from "../Asset/Images/p3.jpeg";
 import i4 from "../Asset/Images/p4.jpeg";
+import i5 from "../Asset/Images/bebebapu.jpeg";
+import i6 from "../Asset/Images/p6.jpeg";
+import i7 from "../Asset/Images/p7.jpeg";
+import i8 from "../Asset/Images/p8.jpeg";
+import i9 from "../Asset/Images/p9.jpg";
+
 import s1 from "../Asset/Music/TheWeeknd.mp3";
 import s2 from "../Asset/Music/ap.mp3";
 import s3 from "../Asset/Music/DilSeDilTak.mp3";
 import s4 from "../Asset/Music/paisa hai to.mp3";
+import s5 from "../Asset/Music/BebeBapu.mp3";
+import s6 from "../Asset/Music/BAby.mp3";
+import s7 from "../Asset/Music/i7.mp3";
+import s8 from "../Asset/Music/295.mp3";
+import s9 from "../Asset/Music/LEVELS.mp3";
 
 const AlbumContext = createContext<any>(undefined);
 interface AlbumProviderProps {
@@ -23,7 +34,6 @@ interface AlbumProviderProps {
 const AlbumProvider: React.FC<AlbumProviderProps> = ({ children }) => {
   const [select, setSelect] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
   const album = [
     {
       songName: "The Weekend",
@@ -45,15 +55,33 @@ const AlbumProvider: React.FC<AlbumProviderProps> = ({ children }) => {
       path: s4,
       image: i4,
     },
+    {
+      songName: "Bebe Bapu",
+      path: s5,
+      image: i5,
+    },
+    {
+      songName: "Baby",
+      path: s6,
+      image: i6,
+    },
+    {
+      songName: "Die For You",
+      path: s7,
+      image: i7,
+    },
+    {
+      songName: "295",
+      path: s8,
+      image: i8,
+    },
+    {
+      songName: "LEVELS",
+      path: s9,
+      image: i9,
+    },
   ];
 
-  // const updateslider = () => {
-  //   const time = parseFloat(event.target.value);
-  //   if (audioRef.current) {
-  //     audioRef.current.currentTime = time;
-  //     setUpdateTime(time);
-  //   }
-  // };
   const handlePre = (selectIndex: number) => {
     setSelect(select - 1);
     if (!select) {
@@ -77,27 +105,26 @@ const AlbumProvider: React.FC<AlbumProviderProps> = ({ children }) => {
       setIsPlaying(true);
     }
   };
-  const progressBar = (audioRef: any) => {
-    const sec = Math.floor(audioRef.current.duration);
-    setProgress(sec);
+  const downLoad = (audioRef: any) => {
+    const link = document.createElement("a");
+    link.href = audioRef.current!.src;
+    link.download = "audio.mp3"; 
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
-  console.log(progress);
-  // const sec = (audioRef: any) => {
-  //   setProgress(Math.floor(audioRef.current.duration));
-  //   console.log(progress);
-  // };
 
   const contextValue = {
     album,
-    setSelect,  
+    setSelect,
     select,
     handlePre,
     handleNext,
-    progress,
     playPause,
-    progressBar,
+    isPlaying,
+    downLoad,
   };
-  
+
   return (
     <AlbumContext.Provider value={contextValue}>
       {children}
